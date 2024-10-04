@@ -1,62 +1,39 @@
-import openpyxl
-from itertools import product
+import pandas as pd
+from itertools import combinations
 
-# Cargar el archivo Excel
-workbook = openpyxl.load_workbook("WebScraping_Finding/src/Libro2.xlsx")
+# Cargar archivo Excel
+df = pd.read_excel('./src/Palabras Claves Version 10-08-2024.xlsx')
 
-# Definir configuraciones de columnas para cada hoja 
-configuraciones = { 
-    "Gonzalo Mejía": {"col1_range": range(1), "col2_range": range(2)}, 
-    "Alejandro Acosta": {"col1_range": range(1), "col2_range": range(2)}, 
-    "Victor García": {"col1_range": range(1), "col2_range": range(2)}, 
-    "Ximena Quintanilla": {"col1_range": range(1), "col2_range": range(2)}, 
-    "Éder Caceres": {"col1_range": range(1), "col2_range": range(2)}, 
-    "Diego Jaimes": {"col1_range": range(1), "col2_range": range(2)}, 
-    "Felipe Reyes": {"col1_range": range(1), "col2_range": range(2)}, 
-}
+# Filtrar filas donde 'Resultado' sea mayor a 0
+filtered_df = df[df['Resultado'] > 0]
 
-# Crear un nuevo libro de Excel para almacenar las combinaciones
-nuevo_libro = openpyxl.Workbook()
-nueva_hoja = nuevo_libro.active
-nueva_hoja.title = "Combinaciones"
+# Crear un diccionario para almacenar las combinaciones
+combinaciones_por_investigador = {}
 
-# Inicializar la fila para empezar a escribir en la nueva hoja
-fila_actual = 1
+# Lista para almacenar todas las combinaciones
+todas_combinaciones = []
 
-# Iterar sobre cada hoja del archivo Excel
-for hoja in workbook.worksheets:
-    data = []
+# Iterar sobre los investigadores únicos
+for investigador, grupo in filtered_df.groupby('Investigador'):
+    # Extraer las palabras (columna 'Words') de cada investigador
+    palabras = grupo['Words'].tolist()
+    
+    # Generar combinaciones de las palabras (pares, tríos, etc.)
+    combinaciones = list(combinations(palabras, 2))  # Puedes cambiar el número 2 por el número de elementos en la combinación que desees
+    
+    # Guardar las combinaciones en una lista
+    todas_combinaciones.extend(combinaciones)
 
-    # Leer los datos desde la hoja actual (suponiendo que los datos comienzan en la primera fila)
-    for row in range(0, hoja.max_row):
-        _row = []
-        for col in hoja.iter_cols(1, hoja.max_column + 1):
-            _row.append(col[row].value)
-        data.append(_row)
+# Crear un DataFrame con las combinaciones
+df_combinaciones = pd.DataFrame(todas_combinaciones, columns=['Word1', 'Word2'])
 
-    num_filas = len(data)
+# Unir las palabras combinadas en una sola columna llamada "Word"
+df_combinaciones['Word'] = df_combinaciones['Word1'] +" "+ df_combinaciones['Word2']
 
-    # Obtener la configuración específica para la hoja actual
-    config = configuraciones.get(hoja.title)
+# Eliminar las columnas Word1 y Word2, dejando solo "Word"
+df_combinaciones = df_combinaciones[['Word']]
 
-    if config and num_filas > 0:
-        # Escribir el nombre de la hoja como un encabezado en la nueva hoja de Excel
-        #nueva_hoja.cell(row=fila_actual, column=1, value=f"--- Combinaciones para la hoja: {hoja.title} ---")
-        #fila_actual += 1  # Avanzar a la siguiente fila
+# Guardar el DataFrame en un archivo Excel
+df_combinaciones.to_excel('combinaciones_palabras.xlsx', index=False)
 
-        # Generar combinaciones entre dos columnas diferentes
-        for col1 in config["col1_range"]:
-            for col2 in config["col2_range"]:
-                # Solo generar combinaciones entre columnas diferentes
-                if col1 != col2:  # Esta condición asegura que las columnas sean distintas
-                    col1_values = [data[row][col1] for row in range(num_filas) if len(data[row]) > col1 and data[row][col1] is not None]
-                    col2_values = [data[row][col2] for row in range(num_filas) if len(data[row]) > col2 and data[row][col2] is not None]
-
-                    # Generar y escribir combinaciones de dos columnas
-                    for val1, val2 in product(col1_values, col2_values):
-                        nueva_hoja.cell(row=fila_actual, column=1, value=f'"{val1}"  "{val2}"')
-                        fila_actual += 1  # Avanzar a la siguiente fila
-
-# Guardar el nuevo archivo de Excel con las combinaciones
-nuevo_libro.save("WebScraping_Finding/src/Combinaciones_Generadas.xlsx")
-print("Las combinaciones se han guardado en el archivo 'Combinaciones_Generadas.xlsx'.")
+print("Combinaciones guardadas en el archivo combinaciones_palabras.xlsx")
