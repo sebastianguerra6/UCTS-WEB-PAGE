@@ -28,12 +28,12 @@ for investigador, grupo in filtered_df.groupby('Investigador'):
 df_combinaciones = pd.DataFrame(todas_combinaciones, columns=['Word1', 'Word2'])
 
 # Unir las palabras combinadas en una sola columna llamada "Word"
-df_combinaciones['Word'] = df_combinaciones['Word1'] +" "+ df_combinaciones['Word2']
+df_combinaciones['Word'] ='"' + df_combinaciones['Word1']+'"' +" "+ '"'+ df_combinaciones['Word2']+ '"'
 
 # Eliminar las columnas Word1 y Word2, dejando solo "Word"
 df_combinaciones = df_combinaciones[['Word']]
 
 # Guardar el DataFrame en un archivo Excel
-df_combinaciones.to_excel('combinaciones_palabras.xlsx', index=False)
+df_combinaciones.to_excel('src/combinaciones_palabras.xlsx', index=False)
 
 print("Combinaciones guardadas en el archivo combinaciones_palabras.xlsx")
