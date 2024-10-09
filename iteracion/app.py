@@ -8,13 +8,13 @@ df = pd.read_excel('./src/Palabras Claves Version 10-08-2024.xlsx')
 filtered_df = df[df['Resultado'] > 0]
 
 # Crear un diccionario para almacenar las combinaciones
-combinaciones_por_investigador = {}
+combinaciones_por_LineasDeinvestigacion = {}
 
 # Lista para almacenar todas las combinaciones
 todas_combinaciones = []
 
 # Iterar sobre los investigadores únicos
-for investigador, grupo in filtered_df.groupby('Investigador'):
+for investigador, grupo in filtered_df.groupby('Líneas de investigación'):
     # Extraer las palabras (columna 'Words') de cada investigador
     palabras = grupo['Words'].tolist()
     
