@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UCTS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .hidden {
+            display: none;
+        }
+        .menu-button {
+            position: absolute;
+            top: 20px;
+            right: 20px; /* Cambiado a la derecha */
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        select {
+            font-size: 1.2em;
+            padding: 0.5em;
+            margin-top: 1em;
+        }
+        .add-word-button {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+    </script src="web.js" defer></script>
+    
+
+</head>
+
+
+<body>
+    <!-- Botón de Menú que muestra la sección de opciones -->
+    <button class="menu-button" onclick="mostrarSeccion('menu')">Menú</button>
+
+    <!-- Sección de la página principal -->
+    <div id="inicio">
+        <h1>UCTS</h1>
+        <button onclick="mostrarSeccion('menu')">Ir al Menú de lineas de investigacion</button>
+    </div>
+
+    <!-- Sección del menú de opciones -->
+    <div id="menu" class="hidden">
+        <h1>Lineas de investigacion</h1>
+        <select onchange="navegar(this)">
+            <option value="">Selecciona una opción</option>
+            <option value="opcion1">Cadena de suministro de alimentos, logística y distribución</option>
+            <option value="opcion2">Calidad microbiológica de aguas</option>
+            <option value="opcion3">Alimentos funcionales y microbiota</option>
+            <option value="opcion4">Cuidado crítico</option>
+            <option value="opcion5">Enfermedades no transmisibles</option>
+            <option value="opcion6">Enfermedades infecciosas</option>
+        </select>
+    </div>
+
+    <!-- Sección para la Opción 1 -->
+    <div id="opcion1" class="hidden">
+        <h1>Cadena de suministro de alimentos, logística y distribución</h1>
+        <button class="add-word-button">Agregar Palabra</button>
+        
+
+    </div>
+
+    <!-- Sección para la Opción 2 -->
+    <div id="opcion2" class="hidden">
+        <h1>Calidad microbiológica de aguas</h1>
+        <button class="add-word-button">Agregar Palabra</button>
+    </div>
+
+    <!-- Sección para la Opción 3 -->
+    <div id="opcion3" class="hidden">
+        <h1>Alimentos funcionales y microbiota</h1>
+        <button class="add-word-button">Agregar Palabra</button>
+    </div>
+
+    <!-- Sección para la Opción 4 -->
+    <div id="opcion4" class="hidden">
+        <h1>Cuidado crítico</h1>
+        <button class="add-word-button">Agregar Palabra</button>
+    </div>
+
+    <!-- Sección para la Opción 5 -->
+    <div id="opcion5" class="hidden">
+        <h1>Enfermedades no transmisibles</h1>
+        <button class="add-word-button">Agregar Palabra</button>
+    </div>
+
+    <!-- Sección para la Opción 6 -->
+    <div id="opcion6" class="hidden">
+        <h1>Enfermedades infecciosas</h1>
+        <button class="add-word-button">Agregar Palabra</button>
+    </div>
+
+    <script>
+        // Función para mostrar la sección seleccionada y ocultar las demás
+        function mostrarSeccion(id) {
+            // Oculta todas las secciones
+            document.querySelectorAll("div").forEach(div => div.classList.add("hidden"));
+            // Muestra la sección seleccionada
+            document.getElementById(id).classList.remove("hidden");
+        }
+
+        // Función para navegar entre las opciones del menú
+        function navegar(select) {
+            const id = select.value;
+            if (id) {
+                mostrarSeccion(id);
+                select.value = "";  // Restablece el menú desplegable
+            }
+        }
+
+        // Muestra la página de inicio al cargar
+        mostrarSeccion("inicio");
+    </script>
+<script src="/js/web.js"></script>
+
+</body>
+</html>
+
