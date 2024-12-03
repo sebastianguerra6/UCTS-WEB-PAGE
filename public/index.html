@@ -46,6 +46,23 @@
             cursor: pointer;
             border-radius: 5px;
         }
+        table {
+            width: 80%;
+            margin-top: 10300px;
+            border-collapse: collapse;
+            
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 3px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        
     </style>
     </script src="web.js" defer></script>
     
@@ -80,9 +97,23 @@
     <!-- Sección para la Opción 1 -->
     <div id="opcion1" class="hidden">
         <h1>Cadena de suministro de alimentos, logística y distribución</h1>
-        <button class="add-word-button">Agregar Palabra</button>
-        
-
+        <!-- Agrega una tabla para mostrar los datos -->
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th>Grupo</th>
+                <th>Líneas de investigación</th>
+                <th>Words</th>
+                <th>Resultado</th>
+                <th>Filtro de Fecha</th>
+                <th>Con Resultado</th>
+                <th>Con Resultado Fecha</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Las filas se agregarán aquí mediante JavaScript -->
+        </tbody>
+    </table>
     </div>
 
     <!-- Sección para la Opción 2 -->
@@ -136,8 +167,7 @@
         // Muestra la página de inicio al cargar
         mostrarSeccion("inicio");
     </script>
-<script src="/js/web.js"></script>
+<script type="module" src="/web.js"></script>
 
 </body>
 </html>
-
