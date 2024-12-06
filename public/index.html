@@ -48,7 +48,7 @@
         }
         table {
             width: 80%;
-            margin-top: 10300px;
+            margin-top: 3em;
             border-collapse: collapse;
             
         }
@@ -62,9 +62,12 @@
         th {
             background-color: #f2f2f2;
         }
+        #data-table tr {
+            border: 1px solid black;
+            background-color: #f0f0f0; /* Agrega un color de fondo */
+        }
         
     </style>
-    </script src="web.js" defer></script>
     
 
 </head>
@@ -83,14 +86,14 @@
     <!-- Sección del menú de opciones -->
     <div id="menu" class="hidden">
         <h1>Lineas de investigacion</h1>
-        <select onchange="navegar(this)">
+        <select id="lineas-select" onchange="getFilteredData()">
             <option value="">Selecciona una opción</option>
-            <option value="opcion1">Cadena de suministro de alimentos, logística y distribución</option>
-            <option value="opcion2">Calidad microbiológica de aguas</option>
-            <option value="opcion3">Alimentos funcionales y microbiota</option>
-            <option value="opcion4">Cuidado crítico</option>
-            <option value="opcion5">Enfermedades no transmisibles</option>
-            <option value="opcion6">Enfermedades infecciosas</option>
+            <option value="Cadena de suministro de alimentos, logística y distribución">Cadena de suministro de alimentos, logística y distribución</option>
+            <option value="Calidad microbiológica de aguas">Calidad microbiológica de aguas</option>
+            <option value="Alimentos funcionales y microbiota">Alimentos funcionales y microbiota</option>
+            <option value="Cuidado crítico">Cuidado crítico</option>
+            <option value="Enfermedades no transmisibles">Enfermedades no transmisibles</option>
+            <option value="Enfermedades infecciosas">Enfermedades infecciosas</option>
         </select>
     </div>
 
@@ -119,6 +122,7 @@
     <!-- Sección para la Opción 2 -->
     <div id="opcion2" class="hidden">
         <h1>Calidad microbiológica de aguas</h1>
+        
         <button class="add-word-button">Agregar Palabra</button>
     </div>
 

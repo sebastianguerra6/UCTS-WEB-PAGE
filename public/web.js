@@ -1,4 +1,3 @@
-
 // Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyA6unpcJthG1vxG0uGsX3axTJrBSuiOcnY",
@@ -19,13 +18,28 @@ import { getFirestore, collection, query, where, getDocs } from "https://www.gst
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// Función para obtener datos de Firestore
+// Función para crear una celda de tabla
+function createCell(text) {
+    const cell = document.createElement("td");
+    cell.textContent = text || "Sin dato"; // Si no hay dato, poner "Sin dato"
+    return cell;
+}
+
+// Función para obtener los datos filtrados de Firestore
 window.getFilteredData = async function getFilteredData() {
     const collectionName = "palabras-claves";
-    const filterValue = "Cadena de suministro de alimentos, logística y distribución"; // Línea de investigación que deseas filtrar
+    const selectedOption = document.getElementById("lineas-select").value; // Obtén el valor seleccionado
     const tableBody = document.querySelector("#data-table tbody");
+    
+    if (!selectedOption) {
+        console.warn("Por favor selecciona una línea de investigación.");
+        return; // No continuar si no se ha seleccionado una opción
+    }
 
-    console.log(`Filtrando documentos con "Líneas de investigación" igual a "${filterValue}"`);
+    // Muestra la sección seleccionada en el menú
+    mostrarSeccion("opcion1");
+
+    console.log(`Filtrando documentos con "Líneas de investigación" igual a "${selectedOption}"`);
 
     try {
         // Limpia la tabla antes de insertar nuevos datos
@@ -34,7 +48,7 @@ window.getFilteredData = async function getFilteredData() {
         // Crea la consulta con el filtro
         const q = query(
             collection(db, collectionName),
-            where("Líneas de investigación", "==", filterValue)
+            where("Líneas de investigación", "==", selectedOption)
         );
 
         // Ejecuta la consulta
@@ -54,49 +68,25 @@ window.getFilteredData = async function getFilteredData() {
         // Procesa los documentos encontrados
         querySnapshot.forEach((doc) => {
             const data = doc.data();
-            console.log("Documento:", data); // Aquí se imprime el id y los datos del documento
-
 
             // Crear una fila para cada documento
             const row = document.createElement("tr");
 
             // Crear celdas para cada columna
-            const grupoCell = document.createElement("td");
-            grupoCell.textContent = data["Grupo"] || "Sin dato";
-
-            const lineasInvestigacionCell = document.createElement("td");
-            lineasInvestigacionCell.textContent = data["Líneas de investigación"] || "Sin dato";
-
-            const wordsCell = document.createElement("td");
-            wordsCell.textContent = data["Words"] || "Sin dato";
-
-            const resultadoCell = document.createElement("td");
-            resultadoCell.textContent = data["Resultado"] || "Sin dato";
-
-            const filtroFechaCell = document.createElement("td");
-            filtroFechaCell.textContent = data["Con Filtro de Fecha"] || "Sin dato";
-
-            const conResultadoCell = document.createElement("td");
-            conResultadoCell.textContent = data["Con Resultado"] || "No";
-
-            const conResultadoFechaCell = document.createElement("td");
-            conResultadoFechaCell.textContent = data["Con Resultado Fecha"] || "No";
-
-            // Añadir las celdas a la fila
-            row.appendChild(grupoCell);
-            row.appendChild(lineasInvestigacionCell);
-            row.appendChild(wordsCell);
-            row.appendChild(resultadoCell);
-            row.appendChild(filtroFechaCell);
-            row.appendChild(conResultadoCell);
-            row.appendChild(conResultadoFechaCell);
+            row.appendChild(createCell(data["Grupo"]));
+            row.appendChild(createCell(data["Líneas de investigación"]));
+            row.appendChild(createCell(data["Words"]));
+            row.appendChild(createCell(data["Resultado"]));
+            row.appendChild(createCell(data["Con Filtro de Fecha"]));
+            row.appendChild(createCell(data["Con Resultado"]));
+            row.appendChild(createCell(data["Con Resultado Fecha"]));
 
             // Añadir la fila al cuerpo de la tabla
             tableBody.appendChild(row);
+            console.log("Fila añadida:", row);
         });
     } catch (error) {
         console.error("Error al filtrar los datos:", error);
-
         // Mostrar un mensaje de error en la tabla
         const errorRow = document.createElement("tr");
         const errorCell = document.createElement("td");
@@ -105,7 +95,13 @@ window.getFilteredData = async function getFilteredData() {
         errorRow.appendChild(errorCell);
         tableBody.appendChild(errorRow);
     }
+};
+
+// Función para mostrar la sección seleccionada y ocultar las demás
+function mostrarSeccion(id) {
+    document.querySelectorAll("div").forEach(div => div.classList.add("hidden"));
+    document.getElementById(id).classList.remove("hidden");
 }
 
-// Llama a la función
-getFilteredData();
+// Llamar a la función cuando se cambia la selección en el menú
+document.getElementById("lineas-select").addEventListener("change", getFilteredData);
