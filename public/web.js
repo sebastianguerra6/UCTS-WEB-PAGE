@@ -10,20 +10,79 @@ const firebaseConfig = {
 // Import the functions you need from the SDKs
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-app.js";
-import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore.js";
-
-
+import { doc, updateDoc, getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.7.2/firebase-firestore.js";
 
 // Inicializar Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 // Función para crear una celda de tabla
-function createCell(text) {
+function createCell(text, editable = false, docId, fieldName) {
     const cell = document.createElement("td");
-    cell.textContent = text || "Sin dato"; // Si no hay dato, poner "Sin dato"
+
+    if (editable) {
+        const input = document.createElement("input");
+        input.type = "text";
+        input.value = text;
+        input.addEventListener("blur", async () => {
+            // Actualizar el valor de la celda en la tabla
+            cell.textContent = input.value;
+            
+            // Aquí actualizamos el valor en Firestore
+            try {
+                await updateDocument(docId, fieldName, input.value);  // Llamada a la función que actualizará Firestore
+            } catch (error) {
+                console.error("Error al actualizar los datos en Firestore:", error);
+                // Mostrar un mensaje de error si la actualización falla
+                alert("No se pudo actualizar el dato.");
+            }
+        });
+
+        input.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                input.blur(); // Guardar al presionar Enter
+            }
+        });
+
+        cell.appendChild(input);
+    } else {
+        cell.textContent = text;
+    }
+
     return cell;
 }
+// Función para hacer que las celdas de la tabla sean editables
+document.querySelector('#data-table').addEventListener('click', function(event) {
+    const td = event.target;
+
+    // Verifica si el clic fue en una celda de la tabla
+    if (td.tagName === 'TD') {
+        const originalText = td.textContent;  // Guarda el contenido original
+
+        // Crear un input para editar el valor
+        const input = document.createElement('input');
+        input.value = originalText;
+        td.textContent = '';  // Elimina el contenido actual de la celda
+        td.appendChild(input);  // Añade el input a la celda
+
+        // Cuando el usuario termine de editar (presiona Enter o hace clic fuera)
+        input.addEventListener('blur', function() {
+            const newValue = input.value;  // Obtiene el nuevo valor
+
+            // Restaura el valor editado a la celda
+            td.textContent = newValue;
+
+            // Aquí podrías agregar lógica para actualizar el valor en Firestore si es necesario
+        });
+
+        // Opcional: si presionas Enter, también guarda el valor y pierde el foco
+        input.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                input.blur();  // Esto dispara el evento de "blur"
+            }
+        });
+    }
+});
 
 // Función para obtener los datos filtrados de Firestore
 window.getFilteredData = async function getFilteredData() {
