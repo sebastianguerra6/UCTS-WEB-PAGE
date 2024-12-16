@@ -74,7 +74,22 @@
             top: 0;
             background-color: #f2f2f2;
             z-index: 1; /* Asegura que el encabezado esté por encima de las filas */
-}
+        }
+        #add-word-form {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+        .hidden {
+            display: none;
+        }
+
         
     </style>
     
@@ -106,57 +121,40 @@
         </select>
     </div>
 
+        <!-- Botón para añadir una nueva palabra -->
+    <button class="add-word-button" onclick="openAddWordForm()">Añadir Palabra</button>
+
+    <!-- Formulario para añadir palabra -->
+    <div id="add-word-form" class="hidden">
+        <h2>Añadir Nueva Palabra</h2>
+        <label for="new-word">Palabra Clave:</label>
+        <input type="text" id="new-word" placeholder="Escribe la nueva palabra">
+        <br>
+        <label for="new-result">Resultado:</label>
+        <input type="text" id="new-result" placeholder="Escribe el resultado">
+        <br>
+        <button onclick="addNewWord()">Guardar</button>
+        <button onclick="closeAddWordForm()">Cancelar</button>
+    </div>
+
+
     <!-- Sección para la Opción 1 -->
     <div id="opcion1" class="hidden">
-        <h1>Cadena de suministro de alimentos, logística y distribución</h1>
+        <h1>Palabras Claves</h1>
         <!-- Agrega una tabla para mostrar los datos -->
     <table id="data-table">
         <thead>
             <tr>
-                <th>Grupo</th>
                 <th>Líneas de investigación</th>
                 <th>Words</th>
                 <th>Resultado</th>
-                <th>Filtro de Fecha</th>
-                <th>Con Resultado</th>
-                <th>Con Resultado Fecha</th>
+                
             </tr>
         </thead>
         <tbody>
             <!-- Las filas se agregarán aquí mediante JavaScript -->
         </tbody>
     </table>
-    </div>
-
-    <!-- Sección para la Opción 2 -->
-    <div id="opcion2" class="hidden">
-        <h1>Calidad microbiológica de aguas</h1>
-        
-        <button class="add-word-button">Agregar Palabra</button>
-    </div>
-
-    <!-- Sección para la Opción 3 -->
-    <div id="opcion3" class="hidden">
-        <h1>Alimentos funcionales y microbiota</h1>
-        <button class="add-word-button">Agregar Palabra</button>
-    </div>
-
-    <!-- Sección para la Opción 4 -->
-    <div id="opcion4" class="hidden">
-        <h1>Cuidado crítico</h1>
-        <button class="add-word-button">Agregar Palabra</button>
-    </div>
-
-    <!-- Sección para la Opción 5 -->
-    <div id="opcion5" class="hidden">
-        <h1>Enfermedades no transmisibles</h1>
-        <button class="add-word-button">Agregar Palabra</button>
-    </div>
-
-    <!-- Sección para la Opción 6 -->
-    <div id="opcion6" class="hidden">
-        <h1>Enfermedades infecciosas</h1>
-        <button class="add-word-button">Agregar Palabra</button>
     </div>
 
     <script>
