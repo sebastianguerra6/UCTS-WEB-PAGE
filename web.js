@@ -93,7 +93,7 @@ document.querySelector('#data-table').addEventListener('click', function(event) 
 
 // Función para obtener los datos filtrados de Firestore
 window.getFilteredData = async function getFilteredData() {
-    const collectionName = "palabras-claves";
+    const collectionName = "key words";
     const selectedOption = document.getElementById("lineas-select").value; // Obtén el valor seleccionado
     const tableBody = document.querySelector("#data-table tbody");
     
@@ -105,7 +105,7 @@ window.getFilteredData = async function getFilteredData() {
     // Muestra la sección seleccionada en el menú
     mostrarSeccion("opcion1");
 
-    console.log(`Filtrando documentos con "Líneas de investigación" igual a "${selectedOption}"`);
+    console.log(`Filtrando documentos con "Line of research" igual a "${selectedOption}"`);
 
     try {
         // Limpia la tabla antes de insertar nuevos datos
@@ -114,7 +114,7 @@ window.getFilteredData = async function getFilteredData() {
         // Crea la consulta con el filtro
         const q = query(
             collection(db, collectionName),
-            where("Líneas de investigación", "==", selectedOption)
+            where("Line of research", "==", selectedOption)
         );
 
         // Ejecuta la consulta
@@ -140,7 +140,7 @@ window.getFilteredData = async function getFilteredData() {
             const row = document.createElement("tr");
 
             // Crear celdas para cada columna
-            row.appendChild(createCell(data["Líneas de investigación"], true, docId, "Líneas de investigación"));
+            row.appendChild(createCell(data["Line of research"], true, docId, "Line of research"));
             row.appendChild(createCell(data["Words"], true, docId, "Words"));
             
 
@@ -170,7 +170,7 @@ function mostrarSeccion(id) {
 // Función para actualizar un campo en Firestore
 async function updateDocument(docId, fieldName, newValue) {
     try {
-        const docRef = doc(db, "palabras-claves", docId); // Cambia "palabras-claves" por tu colección
+        const docRef = doc(db, "key words", docId); // Cambia "key words" por tu colección
         await updateDoc(docRef, {
             [fieldName]: newValue, // Usa notación de corchetes para actualizar dinámicamente el campo
         });
@@ -213,10 +213,10 @@ async function addNewWord() {
 
     try {
         // Guarda la nueva palabra en Firestore
-        await addDoc(collection(db, "palabras-claves"), {
-            "Líneas de investigación": selectedResearchLine,
+        await addDoc(collection(db, "key words"), {
+            "Line of research": selectedResearchLine,
             "Words": newWord,
-            "Resultado": newResult,
+            
         });
 
         alert("Nueva palabra añadida exitosamente.");
