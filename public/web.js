@@ -142,7 +142,7 @@ window.getFilteredData = async function getFilteredData() {
             // Crear celdas para cada columna
             row.appendChild(createCell(data["Líneas de investigación"], true, docId, "Líneas de investigación"));
             row.appendChild(createCell(data["Words"], true, docId, "Words"));
-            row.appendChild(createCell(data["Resultado"], true, docId, "Resultado"));
+            
 
 
             // Añadir la fila al cuerpo de la tabla
