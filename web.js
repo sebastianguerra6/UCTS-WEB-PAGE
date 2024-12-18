@@ -204,12 +204,9 @@ function closeAddWordForm() {
 // Función para añadir una nueva palabra a Firestore
 async function addNewWord() {
     const newWord = document.getElementById("new-word").value.trim();
-    const newResult = document.getElementById("new-result").value.trim();
+    
 
-    if (!newWord || !newResult) {
-        alert("Por favor llena todos los campos.");
-        return;
-    }
+    
 
     try {
         // Guarda la nueva palabra en Firestore
