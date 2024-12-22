@@ -47,7 +47,7 @@
             border-radius: 5px;
         }
         table {
-            width: 80%;
+            width: 100%;
             margin-top: 3em;
             border-collapse: collapse;
             max-height: 400px; /* Ajusta según el tamaño que desees para la tabla */
@@ -99,19 +99,19 @@
 
 <body>
     <!-- Botón de Menú que muestra la sección de opciones -->
-    <button class="menu-button" onclick="mostrarSeccion('menu')">Menú</button>
+    <button class="menu-button" onclick="mostrarSeccion('menu')">Menu</button>
 
     <!-- Sección de la página principal -->
     <div id="inicio">
         <h1>UCTS</h1>
-        <button onclick="mostrarSeccion('menu')">Ir al Menú de lineas de investigacion</button>
+        <button onclick="mostrarSeccion('menu')">Research Topic Menu</button>
     </div>
 
     <!-- Sección del menú de opciones -->
     <div id="menu" class="hidden">
-        <h1>Line of research</h1>
+        <h1>Research Topic</h1>
         <select id="lineas-select" onchange="getFilteredData()">
-            <option value="">Selecciona una opción</option>
+            <option value="">Please Select An Option</option>
             <option value="Food supply chain, logistics and distribution">Food supply chain, logistics and distribution</option>
             <option value="Microbiological water quality">Microbiological water quality</option>
             <option value="Functional foods and microbiota">Functional foods and microbiota</option>
@@ -123,7 +123,7 @@
     </div>
 
         <!-- Botón para añadir una nueva palabra -->
-    <button class="add-word-button" onclick="openAddWordForm()">Añadir Palabra</button>
+    <button class="add-word-button" onclick="openAddWordForm()">Add Word</button>
 
     <!-- Formulario para añadir palabra -->
     <div id="add-word-form" class="hidden">

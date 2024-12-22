@@ -98,7 +98,7 @@ window.getFilteredData = async function getFilteredData() {
     const tableBody = document.querySelector("#data-table tbody");
     
     if (!selectedOption) {
-        console.warn("Por favor selecciona una línea de investigación.");
+        console.warn("Please select a Research Topic");
         return; // No continuar si no se ha seleccionado una opción
     }
 
